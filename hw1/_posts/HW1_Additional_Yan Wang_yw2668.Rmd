@@ -7,7 +7,7 @@ published: false
 tags: hw1 
 ---
 
-####As a R beginner, I was not able to draw many graphics in Homework 1. Therefore here I'd like to add an additional homework creating an interaction chart based on the real-world data of the company I work for.
+####As a R beginner, I was not able to draw many graphics in Homework 1. Therefore I'd like to add an additional homework creating an interaction chart based on the real-world data of the company I work for.
 
 ####Our company represents nearly 20 American Designer Handbags in China. I will show the trends of total sales and the sales of each brands from 2008 to 2013 using an interaction chart.
 
