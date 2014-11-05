@@ -1,0 +1,177 @@
+---
+title: "Homework 1_Additional"
+author: "Yan Wang (yw2668)"
+date: "November 1, 2014"
+output: html_document
+published: false
+tags: hw1 
+---
+
+####As a R beginner, I was not able to draw many graphics in Homework 1. Therefore here I'd like to add an additional homework creating an interaction chart based on the real-world data of the company I work for.
+
+####Our company represents nearly 20 American Designer Handbags in China. I will show the trends of total sales and the sales of each brands from 2008 to 2013 using an interaction chart.
+
+```{r}
+#Load Data
+setwd("/Users/Emily/Documents/Columbia/Data Visualization/Kate Zhou")
+d8<-read.csv("2008 bags.csv", header=TRUE, stringsAsFactors=F)
+d9<-read.csv("2009 bags.csv", header=TRUE, stringsAsFactors=F)
+d10<-read.csv("2010 bags.csv", header=TRUE, stringsAsFactors=F)
+d11<-read.csv("2011 bags.csv", header=TRUE, stringsAsFactors=F)
+d12<-read.csv("2012 bags.csv", header=TRUE, stringsAsFactors=F)
+d13<-read.csv("2013 bags.csv", header=TRUE, stringsAsFactors=F)
+```
+
+```{r}
+#Tidy Data, combine the brands with limited sales into one category
+table(d8$Brand)
+d8 <- as.data.frame(sapply(d8, gsub, pattern = "Rough Roses", replacement = "Other"))
+d8 <- as.data.frame(sapply(d8, gsub, pattern = "Roxbury", replacement = "Other"))
+d8 <- as.data.frame(sapply(d8, gsub, pattern = "Rocco e Dante ", replacement = "Other"))
+
+table(d9$Brand)
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Ananas", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Ede & Elliote", replacement = "Ede & Elliott"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Flying Scissors", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Jalda", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Jessica Jaye", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Kooba", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Republic & Co. ", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Rocco e Dante ", replacement = "Other"))
+d9 <- as.data.frame(sapply(d9, gsub, pattern = "Roxbury", replacement = "Other"))
+
+table(d10$Brand)
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Ananas", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Badgley Mischka", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Deposit", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Diane De Maria", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Ananas", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Ede & Elliott", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Flying Scissors", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Jalda", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Rocco e Dante", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Ted Rossi", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Wish Item", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "B-low the Belt", replacement = "Other"))
+d10 <- as.data.frame(sapply(d10, gsub, pattern = "Other ", replacement = "Other"))
+
+table(d11$Brand)
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "B-low the Belt", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Bodhi", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Chia", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Felix Rey", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Helena de Natalio", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Isabel Fiore", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Jalda", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "M20", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Magnes Sisters", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Nanette lepore", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Rocco e Dante", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Rocco e Dante ", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Romygold", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Ted Rossi", replacement = "Other"))
+d11 <- as.data.frame(sapply(d11, gsub, pattern = "Other ", replacement = "Other"))
+
+table(d12$Brand)
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Allibelle", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Antoinette Lee", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "B-low the Belt", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Chia", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Deposit", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Felix Rey", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Graf & Lantz", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Isabella Fiore", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "M20", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Nanette lepore", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Nanette Lepore", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Rocco e Dante", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Rocco e Dante ", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Isabella Fiore", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Romygold", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Tribeca", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Voucher", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "WH Petronela", replacement = "Other"))
+d12 <- as.data.frame(sapply(d12, gsub, pattern = "Other ", replacement = "Other"))
+
+table(d13$Brand)
+d13<- as.data.frame(sapply(d13, gsub, pattern = "Antoinette Lee", replacement = "Other"))
+d13<- as.data.frame(sapply(d13, gsub, pattern = "CC Skye", replacement = "Other"))
+d13<- as.data.frame(sapply(d13, gsub, pattern = "Chia", replacement = "Other"))
+d13<- as.data.frame(sapply(d13, gsub, pattern = "Deposit", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "Graf & Lantz", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "Nanette lepore", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "Nanette Lepore", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "Rocco e Dante", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "Ted Rossi", replacement = "Other"))
+d13 <- as.data.frame(sapply(d13, gsub, pattern = "WH Petronela", replacement = "Other"))
+```
+
+```{r}
+#Continue tidying data, prepare the variable "Subtotal" for aggregation
+d8$Subtotal<-as.character(d8$Subtotal)
+d8$Subtotal<-gsub(",","", d8$Subtotal)
+d9$Subtotal<-as.character(d9$Subtotal)
+d9$Subtotal<-gsub(",","", d9$Subtotal)
+d10$Subtotal<-as.character(d10$Subtotal)
+d10$Subtotal<-gsub(",","", d10$Subtotal)
+d11$Subtotal<-as.character(d11$Subtotal)
+d11$Subtotal<-gsub(",","", d11$Subtotal)
+d12$Subtotal<-as.character(d12$Subtotal)
+d12$Subtotal<-gsub(",","", d12$Subtotal)
+d13$Subtotal<-as.character(d13$Subtotal)
+d13$Subtotal<-gsub(",","", d13$Subtotal)
+
+```
+
+```{r}
+#Calculate total sales of each brands in different years and combine the data frames
+agg8<- aggregate(as.numeric(d8$Subtotal),by=list(d8$Brand), FUN=sum, na.rm=T)
+colnames(agg8)<-c("Brand","Sales")
+agg8$Year<-2008
+
+agg9<- aggregate(as.numeric(d9$Subtotal),by=list(d9$Brand), FUN=sum, na.rm=T)
+colnames(agg9)<-c("Brand","Sales")
+agg9$Year<-2009
+
+agg10<- aggregate(as.numeric(d10$Subtotal),by=list(d10$Brand), FUN=sum, na.rm=T)
+colnames(agg10)<-c("Brand","Sales")
+agg10$Year<-2010
+
+agg11<- aggregate(as.numeric(d11$Subtotal),by=list(d11$Brand), FUN=sum, na.rm=T)
+colnames(agg11)<-c("Brand","Sales")
+agg11$Year<-2011
+
+agg12<- aggregate(as.numeric(d12$Subtotal),by=list(d12$Brand), FUN=sum, na.rm=T)
+colnames(agg12)<-c("Brand","Sales")
+agg12$Year<-2012
+
+agg13<- aggregate(as.numeric(d13$Subtotal),by=list(d13$Brand), FUN=sum, na.rm=T)
+colnames(agg13)<-c("Brand","Sales")
+agg13$Year<-2013
+
+agg<-rbind(agg8,agg9,agg10,agg11,agg12,agg13)
+```
+
+```{r}
+#Calculate total sales volumes for each year and add the data into "agg"
+library(plyr)
+total<-ddply(agg,.(Year),summarize,sum=sum(Sales, na.rm=T))
+colnames(total)<-c("Year","Sales")
+total$Brand<-"Total"
+total<-data.frame(total$Brand,total$Sales,total$Year)
+colnames(total)<-c("Brand", "Sales", "Year")
+agg<-rbind(agg,total)
+
+```
+
+```{r}
+#Display data using an interaction chart by googleviz package
+library(googleVis)
+M <- gvisMotionChart(agg, idvar="Brand", timevar="Year")
+cat(M$html$chart, file="Kate Zhou.html")
+plot(M)
+```
+
+####Please check out the interaction chart using the following link:
+#### http://www.jianggonglue.com/emily/katezhou.html
+(Please select "Log" in the Lin/log Scale and choose "unique colors" in the Colour selection box. Select interested brand or "Total", check Trails, and click on Play button, then we are able to see the trends of sales along the years between 2008-2013. We also can check out the sales development using bar chart by clicking on the "bar button" on the upper right corner.)
